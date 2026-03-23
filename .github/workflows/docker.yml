@@ -1,0 +1,34 @@
+name: Docker CI - User Service
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    env:  # Inject GitHub secrets for Docker Compose
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker images via Compose
+        run: |
+          docker compose -f docker-compose.yml build
+          docker compose -f docker-compose.yml push
