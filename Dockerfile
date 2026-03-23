@@ -7,13 +7,13 @@ WORKDIR /app
 # Copy package files first (better caching)
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install only production dependencies
+RUN npm install --omit=dev
 
 # Copy rest of the code
 COPY . .
 
-# Expose port
+# Expose port (Cloud Run will override via PORT env)
 EXPOSE 3000
 
 # Start the app
