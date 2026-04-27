@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import userRoutes from './routes/userRoutes.js';
 import seedAdmin from './seeders/adminSeeder.js';
-import { swaggerDocs } from "./docs/swagger.js";
+import { swaggerDocs } from "./config/swagger.js";
 
 const app = express();
 app.use(cors({
