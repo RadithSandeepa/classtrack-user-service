@@ -21,5 +21,6 @@ app.use('/users', userRoutes);
 // Start server
 app.listen(PORT, async () => {
   console.log(`User Service running on port ${PORT}`);
+  //This is a new change
   await seedAdmin(); // seed admin at startup
 })
